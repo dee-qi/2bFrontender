@@ -39,8 +39,8 @@ var pattern2 = new RegExp('s$');
 * {n,} 匹配前一项至少n次
 * {n} 匹配前一项n次
 * ? 匹配前一项0次或者1次{0,1}
-* + 匹配前一项1次或者多次{1,}
-* * 匹配前一项0次或者多次{0,}
+* \+ 匹配前一项1次或者多次{1,}
+* \* 匹配前一项0次或者多次{0,}
 
 > **非贪婪的匹配**
 > 前面说的匹配方式都是尽可能多的匹配，如用/a+/来匹配字符'aaa'会匹配全部三个a
@@ -49,13 +49,13 @@ var pattern2 = new RegExp('s$');
 
 ### 选择、分组和引用
 
-> 选择
+_选择_
 
 字符"|"用于分割供选择的字符。如```/ab|cd|efg/```可以匹配ab或者cd或者efg，```/\d+|[a-z]{4}/```可以匹配一个以上的数字或者四个字母。
 
 在进行尝试时是从左到右的，只要匹配到一个合适的，就会忽略|右边的模式
 
-> 分组（又名圆括号的作用）
+_分组和引用（又名圆括号的作用）_
 
 圆括号的作用：
 
@@ -93,7 +93,7 @@ var pattern2 = new RegExp('s$');
 
 ****
 
-用于模式匹配的String方法
+# 用于模式匹配的String方法
 
 * search()
   
@@ -114,4 +114,74 @@ var pattern2 = new RegExp('s$');
   ```
 * match()
 
+  仅有一个参数，一个正则表达式。
+  
+  若有g，则返回一个数组，数组元素是所有匹配的结果。
+
+  若没有g，也返回一个数组，数组第一个元素是匹配的结果，后面的元素分别对应各个括号匹配的内容。
+
+  ```js
+  var url = /(\w+):\/\/([\w.]+)\/(\S*)/;
+  var text = 'Visit my website at https://online.sdu.edu.cn/app';
+  var result = text.match(url);
+  if(result != null){
+    var fullurl = result[0];//https://online.sdu.edu.cn/app
+    var protocol = result[1];//https
+    var host = result[2];//online.sdu.edu.cn
+    var path = result[3];//app
+  }
+  ```
+
 * split()
+
+  可以接收一个正则表达式参数来当做分隔符。
+  ```js
+  '1, 2, 3, 5, 6'.split(/\s*,\s*/); //逗号两边可以有任意多个空格
+
+  >>>['1','2','3','5','6']
+  ```
+
+# RegExp对象
+
+  构造方法两个参数，正则表达式+标识符
+  ```js
+  var pattern = new RegExp('\\d{5}', 'g');
+  ```
+
+  需要注意的是，第一个参数的\必须用\\\替换，因为字符串也用\来表示转义。
+
+## 属性
+
+只读：
+
+* source 正则表达式的文本
+* global 是否g 布尔值
+* ignoreCase 是否i 布尔值
+* multiline 是否m 布尔值
+
+可读可写：
+
+* lastIndex 如果有g，它储存下一次检索开始的位置。没有g就是0
+
+## 方法
+
+* exec()
+
+  返回一个数字，数组第一个元素是匹配到的字符串，往后面的一些元素分别对应每个分组匹配到的字符串。index表示发生匹配的字符串的起始位置，input是输入数据。
+
+  当有g时，再次执行这个方法将从lastIndex处开始检索
+
+  ```js
+  var reg = /(\d{2}):(\w+)/;
+  reg.exec('22:dasd.33:sfdd');//匹配22:dasd lastIndex = 0
+  reg.exec('22:dasd.33:sfdd');//还是匹配22:dasd lastIndex = 0
+
+  var reg = /(\d{2}):(\w+)/g;
+  reg.exec('22:dasd.33:sfdd');//匹配22:dasd lastIndex = 7
+  reg.exec('22:dasd.33:sfdd');//匹配33:sfdd lastIndex = 15
+  reg.exec('22:dasd.33:sfdd');//无匹配，返回null lastIndex = 0
+  ```
+
+* test()
+
+  测试，匹配成功返回true否则false。当有g时，lastIndex行为同exec();

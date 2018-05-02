@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>行内格式上下文——垂直对齐</title>
+	<style type="text/css">
+		p {
+			background: #f5f5f5;
+		}
+		.inline--1 {
+			background: #c7e1f0;
+		}
+		.inline--2 {
+			background: #96c4e6;
+		}
+		.inline--3 {
+			background: #8192d6;
+		}
+		.line-2 .inline--img {
+			vertical-align: middle;
+		}
+		.line-3 .inline--1 {
+			font-size: 24px;
+		}
+		.line-3 .inline--img {
+			vertical-align: text-top;
+		}
+		.line-4 {
+			font-size: 24px;
+		}
+		.line-4 .inline--1 {
+			font-size: 12px;
+		}
+		.line-4 .inline--img {
+			vertical-align: text-bottom;
+		}
+		.line-5 .inline--1,
+		.line-6 .inline--1 {
+			font-size: 24px;
+		}
+		.line-5 .inline--img {
+			vertical-align: top;
+		}
+		.line-6 .inline--img {
+			vertical-align: bottom;
+		}
+		.line-7 .inline--img {
+			vertical-align: 3px;
+		}
+		.line-7 .inline--img:nth-of-type(2) {
+			vertical-align: -8px;
+		}
+		.line-7 .inline--img:nth-of-type(3) {
+			vertical-align: 120%;
+		}
+
+		.line-8 .inline--img:nth-of-type(2) {
+			vertical-align: sub;
+		}
+		.line-8 .inline--img:nth-of-type(3) {
+			vertical-align: super;
+		}
+	</style>
+</head>
+<body>
+    <h1>行内级元素垂直对齐方式</h1>
+    <h2>必知的概念</h2>
+    <h3>中线、基线、顶线、底线</h3>
+    
+    <p>中线（middle）、基线（baseline）、顶线（text-top、底线（text-bottom））是文本的几个基本线，其对应位置如下图：</p>
+    
+    <img src="../img/normal-flow/inline-block-baseline.png" alt="">
+    
+    <ul>
+        <li>基线（base line）：小写英文字母`x`的下端沿。</li>
+        <li>中线（middle line）：小写英文字母`x`的中间。</li>
+        <li>顶线（text-top）：父元素 font-size 大小所组成的一个内容区域的顶部</li>
+        <li>底线（text-bottom）：父元素 font-size 大小所组成的一个内容区域的底部</li>
+    </ul>
+    
+    <h3>vertical-align 取值</h3>
+    
+    <p>vertical-align 只接受8个关键字、一个百分数值或者一个长度值。下面我们将看看各关键字如何作用于行内元素。</p>
+    
+    <img src="../img/normal-flow/vertical-align-value.png" alt="">
+    
+    <p>默认的对齐方式为baseline，一般使用最多的就是middle，偶尔你还会看到使用像素来偏移。注意 text-top 及text-bottom 的对齐方式有点特别，不过实战中几乎不用。</p>
+    <h2>对齐实战</h2>
+	<h3>baseline (默认对齐)： 小写字母x的最底线  </h3>
+	<p class="line-1">
+		<img class="inline inline--img" src="../img/normal-flow/z-1.jpg" width="50" alt="">
+		<span class="inline inline--1">Xx 中文 Xx</span>
+		<img class="inline inline--img" src="../img/normal-flow/z-2.jpg" width="70" alt="">
+		<span class="inline inline--2">gf</span>
+		<img class="inline inline--img" src="../img/normal-flow/z-6.jpg" width="100" alt="">
+		中文
+	</p>
+	<h3>middle： 小写字母x的中线</h3>
+	<p class="line-2">
+		<img class="inline inline--img" src="../img/normal-flow/z-1.jpg" width="50" alt="">
+		<span class="inline inline--1">Xx 中文 Xx</span>
+		<img class="inline inline--img" src="../img/normal-flow/z-2.jpg" width="70" alt="">
+		<span class="inline inline--2">gf</span>
+		<img class="inline inline--img" src="../img/normal-flow/z-6.jpg" width="100" alt="">
+		中文
+	</p>
+	<h3>text-top：行盒 font-size 大小所组成的内容区域顶部</h3>
+	<p>行内盒 “gf” 的 font-size 大小（继承自父元素）与行盒的 font-size 大小一样，所以其内容区域与行盒 font-size 大小所组成的内容区域一样。</p>
+	<p class="line-3">
+		<img class="inline inline--img" src="../img/normal-flow/z-1.jpg" width="50" alt="">
+		<span class="inline inline--1">Xx 中文 Xx</span>
+		<img class="inline inline--img" src="../img/normal-flow/z-2.jpg" width="70" alt="">
+		<span class="inline inline--2">gf</span>
+		<img class="inline inline--img" src="../img/normal-flow/z-6.jpg" width="100" alt="">
+		中文
+	</p>
+	<h3>text-bottom：行盒 font-size 大小所组成内容区域的底部 </h3>
+	<p class="line-4">
+		<img class="inline inline--img" src="../img/normal-flow/z-1.jpg" width="50" alt="">
+		<span class="inline inline--1">Xx 中文 Xx</span>
+		<img class="inline inline--img" src="../img/normal-flow/z-2.jpg" width="70" alt="">
+		<span class="inline inline--2">gf</span>
+		<img class="inline inline--img" src="../img/normal-flow/z-6.jpg" width="100" alt="">
+		中文
+	</p>
+	<h3>top：行盒的最高线</h3>
+	<p class="line-5">
+		<img class="inline inline--img" src="../img/normal-flow/z-1.jpg" width="50" alt="">
+		<span class="inline inline--1">Xx 中文 Xx</span>
+		<img class="inline inline--img" src="../img/normal-flow/z-2.jpg" width="70" alt="">
+		<span class="inline inline--2">gf</span>
+		<img class="inline inline--img" src="../img/normal-flow/z-6.jpg" width="100" alt="">
+		中文
+	</p>
+	<h3>bottom：行盒的最低线</h3>
+	<p class="line-6">
+		<img class="inline inline--img" src="../img/normal-flow/z-1.jpg" width="50" alt="">
+		<span class="inline inline--1">Xx 中文 Xx</span>
+		<img class="inline inline--img" src="../img/normal-flow/z-2.jpg" width="70" alt="">
+		<span class="inline inline--2">gf</span>
+		<img class="inline inline--img" src="../img/normal-flow/z-6.jpg" width="100" alt="">
+		中文
+	</p>
+	<h3>length / %：按照字母x的基线（baseline）偏移设置的数值</h3>
+	<p class="line-7">
+		<img class="inline inline--img" src="../img/normal-flow/z-1.jpg" width="50" alt="">
+		<span class="inline inline--1">Xx 中文 Xx</span>
+		<img class="inline inline--img" src="../img/normal-flow/z-2.jpg" width="70" alt="">
+		<span class="inline inline--2">gf</span>
+		<img class="inline inline--img" src="../img/normal-flow/z-6.jpg" width="100" alt="">
+		中文
+	</p>
+	<h3>sub / super：分别对齐 sub 标签 和 sup 标签的 baseline</h3>
+	<p class="line-8">
+		<img class="inline inline--img" src="../img/normal-flow/z-1.jpg" width="50" alt="">
+		<span class="inline inline--1">Xx 中文 Xx</span>
+		<sub>sub</sub>
+		<img class="inline inline--img" src="../img/normal-flow/z-2.jpg" width="70" alt="">
+		<span class="inline inline--2">gf</span>
+		<sup>sup</sup>
+		<img class="inline inline--img" src="../img/normal-flow/z-6.jpg" width="100" alt="">
+		中文
+	</p>
+</body>
+</html>
+
+

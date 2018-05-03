@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>深入 position</title>
+	<style type="text/css">
+		body {
+			margin: 0;
+			line-height: 1.5;
+            padding-left: 20px;
+            font-size: 14px;
+		}
+
+        .btn {
+            background: #fff;
+            line-height: 40px;
+            padding: 0 15px;
+            border-radius: 5px;
+            display: inline-block;
+            vertical-align: middle;
+            color: #333;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+        .box {
+            background: green;
+            width: 400px;
+            height: 150px;
+            color: #fff;
+            padding: 10px;
+        }
+        .box--static {
+            /* 设置偏移位置无效 */
+            left: 20px;
+            top: 50px;
+        }
+        .box--relative {
+            position: relative;
+        }
+        .box--relative.active {
+            left: 20px;
+            top: 20px;
+        }
+
+		.box--position {
+			position: relative;
+			background: #efefef;
+            color: #333;
+            height: 300px;
+		}
+
+		.absolute-ele-parent {
+			width: 250px;
+			background: green;
+			color: #fff;
+            padding: 10px;
+		}
+
+		.absolute-ele {
+			bottom: 10px;
+			right: 30px;
+			width: 210px;
+			padding: 20px;
+			color: #fff;
+			background: #f00;
+		}
+
+        .absolute-ele.active {
+            position: absolute;
+        }
+        .ele--detail {
+            width: 240px;
+            left: 20px;
+            right: 20px;
+            top: 80px;
+            bottom: 20px;
+        }
+        .box--fixed-wrap {
+            position: relative;
+            height: 300px;
+            background: #efefef;
+            color: #333;
+        }
+        .box--fixed-wrap.active {
+            transform: translate(0, 0);
+        }
+		.box-fixed {
+			bottom: 10px;
+			right: 30px;
+			width: 210px;
+			padding: 20px;
+			color: #fff;
+			background: blue;
+		}
+        .box-fixed.active {
+            position: fixed;
+        }
+        .sticky {
+            position: sticky;
+            top: 0;
+            left: 0;
+            line-height: 40px;
+            background: #efefef;
+        }
+	</style>
+</head>
+<body>
+    <h1>深入 position</h1>
+    <h2>static</h2>
+    <div class="box box--static">没有设置 position，所以默认为 static。设置偏移位置无效</div>
+    <h2>relative</h2>
+    <p>我是用来测试文本 1，对我没有影响</p>
+    <div class="box box--relative active">
+        <p>设置为 relative，left 为 20px，top 为 20px。relative 设置偏移位置后，不影响其他兄弟元素的排布。</p>
+        <span class="btn" id="btn-relative">点击查看偏移前后对比</span>
+    </div>
+    <p>我是用来测试文本 2，对我没有影响</p>
+    <h2>absolute</h2>
+    <p>当红色盒子设置为绝对定位时，会从父元素绿色盒子中脱离出来，成为一个独立的存在。其定位偏移以最近设置了 position 为非 static 为基准，这里就是灰色盒子。</p>
+	<div class="box box--position">
+		<p>灰色盒子为相对定位</p>
+		<div class="absolute-ele-parent">
+			<p>绿色盒子为 absolute 定位元素的直接父元素，然而没有设置 position</p>
+			<div class="absolute-ele active">
+                <p>红色盒子 absolute 定位</p> 
+                <span class="btn" id="btn-absolute">点击切换有无设置 absolute</span>
+            </div>
+		</div>
+    </div>
+    <p>absolute 设置宽度</p>
+    <div class="box box--position">
+        <p>灰色盒子为相对定位</p>
+        <div class="absolute-ele ele--detail active">
+            <p>红色盒子 absolute 定位</p>
+            <p>设置宽度，left 和 right 同时设置则取 left；高度 auto，top 和 bottom 同时设置形成的区域就是该高度</p>
+        </div>
+    </div>
+    <h2>fixed</h2>
+    <p>请看右下角</p>
+    <div class="box box--fixed-wrap">
+        <p>灰色盒子父元素，position 为 relative</p>
+        <span class="btn" id="btn-transform">点击切换有无设置 transform</span>
+        <div class="box-fixed active">
+            <p>fixed 定位，以视窗进行偏移定位</p>
+            <span class="btn" id="btn-fixed">点击切换有无设置 fixed</span>
+        </div>
+    </div>
+    <h2 class="sticky">sticky 1，滚动到此，我就贴在顶部</h2>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <h2 class="sticky">sticky 2，滚动到此，我就贴在顶部</h2>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <h2 class="sticky">sticky 3，滚动到此，我就贴在顶部</h2>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    <p>我是文本</p>
+    
+    <script>
+        var btnRelative = document.querySelector('#btn-relative');
+        btnRelative.addEventListener('click', function() {
+            this.parentNode.classList.toggle('active');
+        })
+        var btnAbsolute = document.querySelector('#btn-absolute');
+        btnAbsolute.addEventListener('click', function() {
+            this.parentNode.classList.toggle('active');
+        })
+        var btnFixed = document.querySelector('#btn-fixed');
+        btnFixed.addEventListener('click', function() {
+            this.parentNode.classList.toggle('active');
+        })
+        var btnFixed = document.querySelector('#btn-transform');
+        btnFixed.addEventListener('click', function() {
+            this.parentNode.classList.toggle('active');
+        })
+    </script>
+</body>
+</html>
+
